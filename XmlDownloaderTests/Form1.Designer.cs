@@ -33,11 +33,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(280, 141);
+            this.button1.Location = new System.Drawing.Point(253, 137);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(154, 88);
+            this.button1.Size = new System.Drawing.Size(199, 136);
             this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
+            this.button1.Text = "Descargar CFDI | Metadata";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

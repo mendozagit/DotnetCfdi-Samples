@@ -34,9 +34,10 @@ namespace XmlDownloaderTests
 
 
             //Configuracion de directorios
-            Settings.LogsDirectory = @"C:\DescargaXml\Logs";
-            Settings.WorkDirectory = @"C:\DescargaXml\Temp";
-            Settings.PackagesDirectory = @"C:\DescargaXml\Paquetes";
+            Settings.LogsDirectory = @"C:\DescargaXml\Logs";  //Directorio temporal de trabajo, este directorio es borrado en cada nueva descarga
+            Settings.WorkDirectory = @"C:\DescargaXml\Temp";   //Donde se guardan tus paquetes cfdi o Metadata (depende de la propiedad EnableRedundantWriting)
+            Settings.PackagesDirectory = @"C:\DescargaXml\Paquetes"; //Directorio de paquetes
+            Settings.EnableRedundantWriting = true; //Escribe el paquete en  Settings.PackagesDirectory, y despues en Settings.WorkDirectory para deserializar (su valor por defecto es true, recuerda que el SAT solo permite descargar 2 veces el mismo paquete, si no lo guardas, entonces no lo solo tienes 1 oportunidad más, despues se agotan de por vida la descarga de dicho paquete) 
 
 
 
