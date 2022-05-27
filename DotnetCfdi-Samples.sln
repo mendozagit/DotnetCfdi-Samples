@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CredentialsSample", "CredentialsTests\CredentialsSample.csproj", "{2BC55EDA-1515-434B-9382-A838337C67AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CredentialsSample", "CredentialsTests\CredentialsSample.csproj", "{2BC55EDA-1515-434B-9382-A838337C67AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlDownloaderSample", "XmlDownloaderTests\XmlDownloaderSample.csproj", "{2CECD193-B46A-4731-9193-C658A692B141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlDownloaderSample", "XmlDownloaderTests\XmlDownloaderSample.csproj", "{2CECD193-B46A-4731-9193-C658A692B141}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoicingSamples", "InvoicingSamples\InvoicingSamples.csproj", "{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Invoicing", "..\invoicing\src\Invoicing\Invoicing.csproj", "{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{2CECD193-B46A-4731-9193-C658A692B141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CECD193-B46A-4731-9193-C658A692B141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CECD193-B46A-4731-9193-C658A692B141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
