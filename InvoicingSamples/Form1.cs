@@ -51,13 +51,13 @@ namespace InvoicingSamples
                 {
                     new InvoiceItemTax
                     {
-                        SubTotal = 100,
+                        Base = 100,
                         TaxId = "002",
                         TaxTypeId = "Exento"
                     },
                     new InvoiceItemTax
                     {
-                        SubTotal = 100,
+                        Base = 100,
                         TaxId = "002",
                         TaxTypeId = "Tasa",
                         TaxRate = 0.160000m,
@@ -65,7 +65,7 @@ namespace InvoicingSamples
                     },
                     new InvoiceItemTax
                     {
-                        SubTotal = 100,
+                        Base = 100,
                         TaxId = "002",
                         TaxTypeId = "Tasa",
                         TaxRate = 0.160000m,
@@ -73,7 +73,7 @@ namespace InvoicingSamples
                     },
                     new InvoiceItemTax
                     {
-                        SubTotal = 100,
+                        Base = 100,
                         TaxId = "003",
                         TaxTypeId = "Tasa",
                         TaxRate = 0.080000m,
@@ -84,7 +84,7 @@ namespace InvoicingSamples
                 {
                     new InvoiceItemTax
                     {
-                        SubTotal = 100,
+                        Base = 100,
                         TaxId = "002",
                         TaxTypeId = "Tasa",
                         TaxRate = 0.060000m,
@@ -182,7 +182,8 @@ namespace InvoicingSamples
                 InvoiceItems = ivoiceItems
             };
 
-
+            invoice.ComputeInvoice();
+            
             xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.NamespacesIE40,
                 SerializerHelper.DefaultXmlWriterSettings);
             File.WriteAllText("invoice.xml", xml);
