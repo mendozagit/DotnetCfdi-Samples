@@ -33,7 +33,7 @@
             // 
             // CfdiIngresoButton
             // 
-            this.CfdiIngresoButton.Location = new System.Drawing.Point(31, 64);
+            this.CfdiIngresoButton.Location = new System.Drawing.Point(313, 158);
             this.CfdiIngresoButton.Name = "CfdiIngresoButton";
             this.CfdiIngresoButton.Size = new System.Drawing.Size(171, 50);
             this.CfdiIngresoButton.TabIndex = 0;
@@ -48,6 +48,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.CfdiIngresoButton);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.ResumeLayout(false);
 
