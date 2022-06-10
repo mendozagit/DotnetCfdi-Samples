@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml;
 using Credencials.Common;
 using Credencials.Core;
 using Invoicing.Base;
@@ -8,6 +9,8 @@ using Invoicing.Common.Constants;
 using Invoicing.Common.Enums;
 using Invoicing.Common.Extensions;
 using Invoicing.Common.Serializing;
+using Invoicing.Complements.Payments;
+using Invoice = Invoicing.Base.Invoice;
 
 namespace InvoicingSamples
 {
@@ -31,6 +34,7 @@ namespace InvoicingSamples
         private string BuildXmlCfdiIngreso()
         {
             var xml = string.Empty;
+            SerializerHelper.ConfigureSettingsForInvoice();
 
             // emisor
             var issuer = new InvoiceIssuer
@@ -106,58 +110,58 @@ namespace InvoicingSamples
             {
                 new InvoiceItem
                 {
-                    SatItemId = InvoiceConstants.SatItemId,
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
                     ItemId = "1801",
                     Quantity = 1,
-                    UnitOfMeasureId = InvoiceConstants.UnitOfMeasureId,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
                     UnitOfMeasure = "PZA",
                     Description = "Product description 1",
                     UnitCost = 200,
                     Amount = 200,
                     Discount = 0,
-                    TaxObjectId = InvoiceConstants.TaxObjectId,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
                     ItemTaxex = itemTaxes
                 },
                 new InvoiceItem
                 {
-                    SatItemId = InvoiceConstants.SatItemId,
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
                     ItemId = "1802",
                     Quantity = 1,
-                    UnitOfMeasureId = InvoiceConstants.UnitOfMeasureId,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
                     UnitOfMeasure = "PZA",
                     Description = "Product description 2",
                     UnitCost = 200,
                     Amount = 200,
                     Discount = 0,
-                    TaxObjectId = InvoiceConstants.TaxObjectId,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
                     ItemTaxex = itemTaxes
                 },
                 new InvoiceItem
                 {
-                    SatItemId = InvoiceConstants.SatItemId,
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
                     ItemId = "1803",
                     Quantity = 1,
-                    UnitOfMeasureId = InvoiceConstants.UnitOfMeasureId,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
                     UnitOfMeasure = "PZA",
                     Description = "Product description 3",
                     UnitCost = 200,
                     Amount = 200,
                     Discount = 0,
-                    TaxObjectId = InvoiceConstants.TaxObjectId,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
                     ItemTaxex = itemTaxes
                 },
                 new InvoiceItem
                 {
-                    SatItemId = InvoiceConstants.SatItemId,
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
                     ItemId = "1804",
                     Quantity = 1,
-                    UnitOfMeasureId = InvoiceConstants.UnitOfMeasureId,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
                     UnitOfMeasure = "PZA",
                     Description = "Product description 4",
                     UnitCost = 200,
                     Amount = 200,
                     Discount = 0,
-                    TaxObjectId = InvoiceConstants.TaxObjectId,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
                     ItemTaxex = itemTaxes
                 }
             };
@@ -183,7 +187,7 @@ namespace InvoicingSamples
                 PaymentMethodId = "PUE",
                 ExpeditionZipCode = "38034",
                 PacConfirmation = null,
-                SchemaLocation = SerializerHelper.SchemaLocationIE40,
+                SchemaLocation = SerializerHelper.SchemaLocation,
                 GlobalInformation = null,
                 InvoiceRelateds = null,
                 InvoiceIssuer = issuer,
@@ -191,18 +195,16 @@ namespace InvoicingSamples
                 InvoiceItems = ivoiceItems,
             };
 
-            invoice.ComputeInvoice();
+            invoice.Compute();
 
-            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.NamespacesIE40,
-                SerializerHelper.DefaultXmlWriterSettings);
+            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
 
 
             var originalStr = credential.GetOriginalStringByXmlString(xml);
             var signature = credential.SignData(originalStr);
             invoice.SignatureValue = signature.ToBase64String();
 
-            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.NamespacesIE40,
-                SerializerHelper.DefaultXmlWriterSettings);
+            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
 
             File.WriteAllText("invoice.xml", xml);
 
@@ -310,25 +312,262 @@ namespace InvoicingSamples
             //CredentialSettings.Algorithm
             return credential;
         }
+
+        private void PaymentButton_Click(object sender, EventArgs e)
+        {
+            var xml = string.Empty;
+
+            SerializerHelper.ConfigureSettingsForPayment();
+
+            // emisor
+            var issuer = new InvoiceIssuer
+            {
+                Tin = "MEJJ940824C61",
+                LegalName = "JESUS MENDOZA JUAREZ",
+                TaxRegimeId = "621", //RIF
+                OperationNumber = null,
+            };
+
+            //receptor
+            var recipient = new InvoiceRecipient
+            {
+                Tin = "DGE131017IP1",
+                LegalName = "DYM GENERICOS",
+                ZipCode = "38050",
+                ForeignCountryId = null,
+                ForeignTin = null,
+                TaxRegimeId = "601", //General de Ley Personas Morales
+                CfdiUseId = "G03" //Adquisición de mercancías.
+            };
+
+
+            //conceptos: En este nodo se debe expresar un solo concepto descrito en el comprobante fiscal.
+            var ivoiceItems = new List<InvoiceItem>()
+            {
+                new InvoiceItem
+                {
+                    SatItemId = InvoiceConstants.SatPaymentItemId,
+                    //ItemId = "1801", Este campo no debe existir.
+                    Quantity = 1,
+                    UnitOfMeasureId = InvoiceConstants.SatPaymentUnitOfMeasureId,
+                    //UnitOfMeasure = "PZA", Este campo no debe existir.
+                    Description = InvoiceConstants.SatPaymentItemDescriptionId,
+                    UnitCost = 0,
+                    Amount = 0,
+                    Discount = 0,
+                    TaxObjectId = InvoiceConstants.SatPaymentObjectId,
+                }
+            };
+
+            //comprobante
+            var invoice = new Invoice
+            {
+                InvoiceVersion = InvoiceVersion.V40,
+                InvoiceSerie = InvoiceSerie.Pago.ToValue(),
+                InvoiceNuber = "1235",
+                InvoiceDate = DateTime.Now.ToSatFormat(),
+                //PaymentForm = "01", Este campo no debe existir.
+                CertificateNumber = credential.Certificate.CertificateNumber,
+                CertificateB64 = credential.Certificate.PlainBase64,
+                //PaymentConditions = null, Este campo no debe existir.
+                Subtotal = 0,
+                //Discount = 0, Este campo no debe existir.
+                Currency = InvoiceCurrency.XXX.ToValue(),
+                //ExchangeRate = 1, Este campo no debe existir.
+                Total = 0,
+                InvoiceTypeId = InvoiceType.Pago,
+                ExportId = "01", //Se debe registrar la clave “01” (No aplica).
+                //PaymentMethodId = "PUE",Este campo no debe existir.
+                ExpeditionZipCode = "38034",
+                PacConfirmation = null,
+                SchemaLocation = SerializerHelper.SchemaLocation,
+                GlobalInformation = null,
+                InvoiceRelateds = null,
+                InvoiceIssuer = issuer,
+                InvoiceRecipient = recipient,
+                InvoiceItems = ivoiceItems,
+            };
+
+
+            var paymentComplement = new PaymentComplement
+            {
+                PaymentSummary = null,
+                Version = "2.0",
+                Payments = new List<Payment>()
+                {
+                    new Payment
+                    {
+                        PaymentDate = DateTime.Now.ToSatFormat(),
+                        PaymentFormId = "28",
+                        CurrencyId = InvoiceCurrency.MXN.ToValue(),
+                        ExchangeRate = 1,
+                        Ammount = 500,
+                        OperationNumber = null,
+                        OriginBankTin = "BSM970519DU8",
+                        OriginBankAccountNumber = "0123456789",
+                        DestinationBankTin = "BBA830831LJ2",
+                        DestinationAccountNumber = "9874563210",
+                        ForeignBankName = null,
+                        ElectronicPaymentSystemId = null,
+                        Base64PaymetCertificate = null,
+                        PaymentOriginalString = null,
+                        SignatureValue = null,
+                        Invoices = new List<PaymentInvoice>()
+                        {
+                            new PaymentInvoice
+                            {
+                                InvoiceUuid = "5C7B0622-01B4-4EB8-96D0-E0DEBD89FF0F",
+                                InvoiceSeries = "F",
+                                InvoiceNumber = "1127",
+                                InvoiceCurrencyId = InvoiceCurrency.MXN.ToValue(),
+                                InvoiceExchangeRate = 1,
+                                PartialityNumber = 1,
+                                PreviousBalanceAmount = 98618.388800m,
+                                PaymentAmount = 90000m,
+                                RemainingBalance = 8618.3888m,
+                                TaxObjectId = InvoiceConstants.SatPaymentObjectId,
+                                InvoiceTaxesWrapper = new PaymentInvoiceTaxesWrapper()
+                                {
+                                    InvoiceTransferredTaxes = new List<PaymentInvoiceTransferredTax>
+                                    {
+                                        new PaymentInvoiceTransferredTax
+                                        {
+                                            Base = 90000m,
+                                            TaxId = "002",
+                                            TaxTypeId = "Exento"
+                                        },
+                                        new PaymentInvoiceTransferredTax
+                                        {
+                                            Base = 90000m,
+                                            TaxId = "002",
+                                            TaxTypeId = "Tasa",
+                                            TaxRate = 0.000000m,
+                                            Amount = 0
+                                        },
+                                        new PaymentInvoiceTransferredTax
+                                        {
+                                            Base = 90000m,
+                                            TaxId = "002",
+                                            TaxTypeId = "Tasa",
+                                            TaxRate = 0.160000m,
+                                            Amount = 16
+                                        },
+                                        new PaymentInvoiceTransferredTax
+                                        {
+                                            Base = 90000m,
+                                            TaxId = "003",
+                                            TaxTypeId = "Tasa",
+                                            TaxRate = 0.080000m,
+                                            Amount = 8
+                                        }
+                                    },
+                                    WithholdingTaxes = new List<PaymentInvoiceWithholdingTax>()
+                                    {
+                                        new PaymentInvoiceWithholdingTax()
+                                        {
+                                            Base = 90000m,
+                                            TaxId = "002",
+                                            TaxTypeId = "Tasa",
+                                            TaxRate = 0.060000m,
+                                            Amount = 95400
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        //PaymentTaxexWrapper = new PaymentTaxesWrapper
+                        //{
+                        //    PaymentWithholdingTaxes = new List<PaymentWithholdingTax>
+                        //    {
+                        //        new PaymentWithholdingTax()
+                        //        {
+                        //            TaxId = "002",
+                        //            Amount = 95400
+                        //        }
+                        //    },
+                        //    PaymentTransferredTaxes = new List<PaymentTransferredTax>()
+                        //    {
+                        //        new PaymentTransferredTax
+                        //        {
+                        //            Base = 90000m,
+                        //            TaxId = "002",
+                        //            TaxTypeId = "Exento"
+                        //        },
+                        //        new PaymentTransferredTax
+                        //        {
+                        //            Base = 90000m,
+                        //            TaxId = "002",
+                        //            TaxTypeId = "Tasa",
+                        //            TaxRate = 0.000000m,
+                        //            Amount = 0
+                        //        },
+                        //        new PaymentTransferredTax
+                        //        {
+                        //            Base = 90000m,
+                        //            TaxId = "002",
+                        //            TaxTypeId = "Tasa",
+                        //            TaxRate = 0.160000m,
+                        //            Amount = 16
+                        //        },
+                        //        new PaymentTransferredTax
+                        //        {
+                        //            Base = 90000m,
+                        //            TaxId = "003",
+                        //            TaxTypeId = "Tasa",
+                        //            TaxRate = 0.080000m,
+                        //            Amount = 8
+                        //        }
+                        //    }
+                        //}
+                    }
+                }
+            };
+
+            paymentComplement.HeaderDecimals = invoice.HeaderDecimals;
+            paymentComplement.ItemsDecimals = invoice.ItemsDecimals;
+            paymentComplement.RoundingStrategy = invoice.RoundingStrategy;
+            paymentComplement.Compute();
+
+
+            //insert complement into invoice
+
+            var paymentComplementXml = Serializer<Invoice>.SerializeToXmlElement(paymentComplement);
+            invoice.AddComplement(paymentComplementXml);
+
+
+            invoice.Compute();
+
+            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
+
+
+            var originalStr = credential.GetOriginalStringByXmlString(xml);
+            var signature = credential.SignData(originalStr);
+            invoice.SignatureValue = signature.ToBase64String();
+
+            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
+
+            File.WriteAllText("payment-invoice.xml", xml);
+
+        }
     }
+}
 
 
-    /// <summary>
-    /// Esta clase es unica y exclusivamente para no exponer data sensible en gitgub.
-    /// La idea es bastante simple, tengo un directorio con un json y todos los datos certificados en texto
-    /// para no harcodear y exponer, de esta forma, ese archivo secretInfo.json, es desconsiderado por el
-    /// sistema de control de versiones y la data sensible nunca será expuesta publicamente.
-    /// en la vida real usted no tendrea que utilizar esta clase, solo descomente las lineas del metodo GetCredenctial().
-    /// </summary>
-    public class SecretInfo
-    {
-        [JsonPropertyName("csdcer")] public string? CsdCer { get; set; }
+/// <summary>
+/// Esta clase es unica y exclusivamente para no exponer data sensible en gitgub.
+/// La idea es bastante simple, tengo un directorio con un json y todos los datos certificados en texto
+/// para no harcodear y exponer, de esta forma, ese archivo secretInfo.json, es desconsiderado por el
+/// sistema de control de versiones y la data sensible nunca será expuesta publicamente.
+/// en la vida real usted no tendrea que utilizar esta clase, solo descomente las lineas del metodo GetCredenctial().
+/// </summary>
+public class SecretInfo
+{
+    [JsonPropertyName("csdcer")] public string? CsdCer { get; set; }
 
-        [JsonPropertyName("csdkey")] public string? CsdKey { get; set; }
+    [JsonPropertyName("csdkey")] public string? CsdKey { get; set; }
 
-        [JsonPropertyName("fielcer")] public string? FielCer { get; set; }
+    [JsonPropertyName("fielcer")] public string? FielCer { get; set; }
 
-        [JsonPropertyName("fielkey")] public string? FielKey { get; set; }
-        [JsonPropertyName("password")] public string? Password { get; set; }
-    }
+    [JsonPropertyName("fielkey")] public string? FielKey { get; set; }
+    [JsonPropertyName("password")] public string? Password { get; set; }
 }

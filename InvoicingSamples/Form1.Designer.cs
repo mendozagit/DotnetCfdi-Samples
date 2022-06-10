@@ -29,24 +29,39 @@
         private void InitializeComponent()
         {
             this.CfdiIngresoButton = new System.Windows.Forms.Button();
+            this.PaymentButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CfdiIngresoButton
             // 
-            this.CfdiIngresoButton.Location = new System.Drawing.Point(313, 158);
+            this.CfdiIngresoButton.Location = new System.Drawing.Point(16, 115);
+            this.CfdiIngresoButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CfdiIngresoButton.Name = "CfdiIngresoButton";
-            this.CfdiIngresoButton.Size = new System.Drawing.Size(171, 50);
+            this.CfdiIngresoButton.Size = new System.Drawing.Size(148, 79);
             this.CfdiIngresoButton.TabIndex = 0;
-            this.CfdiIngresoButton.Text = "Cfdi Ingreso";
+            this.CfdiIngresoButton.Text = "CFDI INGRESO";
             this.CfdiIngresoButton.UseVisualStyleBackColor = true;
             this.CfdiIngresoButton.Click += new System.EventHandler(this.CfdiIngresoButton_Click);
             // 
+            // PaymentButton
+            // 
+            this.PaymentButton.Location = new System.Drawing.Point(168, 115);
+            this.PaymentButton.Margin = new System.Windows.Forms.Padding(2);
+            this.PaymentButton.Name = "PaymentButton";
+            this.PaymentButton.Size = new System.Drawing.Size(148, 79);
+            this.PaymentButton.TabIndex = 1;
+            this.PaymentButton.Text = "CFDI PAGO";
+            this.PaymentButton.UseVisualStyleBackColor = true;
+            this.PaymentButton.Click += new System.EventHandler(this.PaymentButton_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(640, 360);
+            this.Controls.Add(this.PaymentButton);
             this.Controls.Add(this.CfdiIngresoButton);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -57,5 +72,6 @@
         #endregion
 
         private Button CfdiIngresoButton;
+        private Button PaymentButton;
     }
 }
