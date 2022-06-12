@@ -34,10 +34,10 @@
             // 
             // CfdiIngresoButton
             // 
-            this.CfdiIngresoButton.Location = new System.Drawing.Point(16, 115);
-            this.CfdiIngresoButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CfdiIngresoButton.Location = new System.Drawing.Point(53, 97);
+            this.CfdiIngresoButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.CfdiIngresoButton.Name = "CfdiIngresoButton";
-            this.CfdiIngresoButton.Size = new System.Drawing.Size(148, 79);
+            this.CfdiIngresoButton.Size = new System.Drawing.Size(149, 79);
             this.CfdiIngresoButton.TabIndex = 0;
             this.CfdiIngresoButton.Text = "CFDI INGRESO";
             this.CfdiIngresoButton.UseVisualStyleBackColor = true;
@@ -45,10 +45,10 @@
             // 
             // PaymentButton
             // 
-            this.PaymentButton.Location = new System.Drawing.Point(168, 115);
-            this.PaymentButton.Margin = new System.Windows.Forms.Padding(2);
+            this.PaymentButton.Location = new System.Drawing.Point(253, 97);
+            this.PaymentButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.PaymentButton.Name = "PaymentButton";
-            this.PaymentButton.Size = new System.Drawing.Size(148, 79);
+            this.PaymentButton.Size = new System.Drawing.Size(149, 79);
             this.PaymentButton.TabIndex = 1;
             this.PaymentButton.Text = "CFDI PAGO";
             this.PaymentButton.UseVisualStyleBackColor = true;
@@ -61,10 +61,11 @@
             this.ClientSize = new System.Drawing.Size(640, 360);
             this.Controls.Add(this.PaymentButton);
             this.Controls.Add(this.CfdiIngresoButton);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }

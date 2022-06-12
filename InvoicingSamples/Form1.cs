@@ -180,7 +180,7 @@ namespace InvoicingSamples
                 Subtotal = 0,
                 Discount = 0,
                 Currency = InvoiceCurrency.MXN.ToValue(),
-                ExchangeRate = 1,
+                ExchangeRate = 0,
                 Total = 0,
                 InvoiceTypeId = InvoiceType.Ingreso,
                 ExportId = "01",
@@ -337,7 +337,7 @@ namespace InvoicingSamples
                 ForeignCountryId = null,
                 ForeignTin = null,
                 TaxRegimeId = "601", //General de Ley Personas Morales
-                CfdiUseId = "G03" //Adquisición de mercancías.
+                CfdiUseId = "CP01" //Pagos.
             };
 
 
@@ -386,6 +386,7 @@ namespace InvoicingSamples
                 InvoiceIssuer = issuer,
                 InvoiceRecipient = recipient,
                 InvoiceItems = ivoiceItems,
+                // InvoiceTaxes = null
             };
 
 
@@ -401,12 +402,12 @@ namespace InvoicingSamples
                         PaymentFormId = "28",
                         CurrencyId = InvoiceCurrency.MXN.ToValue(),
                         ExchangeRate = 1,
-                        Ammount = 500,
+                        Ammount = 90000,
                         OperationNumber = null,
                         OriginBankTin = "BSM970519DU8",
-                        OriginBankAccountNumber = "0123456789",
+                        OriginBankAccountNumber = "1234567891012131",
                         DestinationBankTin = "BBA830831LJ2",
-                        DestinationAccountNumber = "9874563210",
+                        DestinationAccountNumber = "1234567890",
                         ForeignBankName = null,
                         ElectronicPaymentSystemId = null,
                         Base64PaymetCertificate = null,
@@ -426,6 +427,7 @@ namespace InvoicingSamples
                                 PaymentAmount = 90000m,
                                 RemainingBalance = 8618.3888m,
                                 TaxObjectId = InvoiceConstants.SatPaymentObjectId,
+                                
                                 InvoiceTaxesWrapper = new PaymentInvoiceTaxesWrapper()
                                 {
                                     InvoiceTransferredTaxes = new List<PaymentInvoiceTransferredTax>
@@ -442,7 +444,7 @@ namespace InvoicingSamples
                                             TaxId = "002",
                                             TaxTypeId = "Tasa",
                                             TaxRate = 0.000000m,
-                                            Amount = 0
+                                         
                                         },
                                         new PaymentInvoiceTransferredTax
                                         {
@@ -450,15 +452,23 @@ namespace InvoicingSamples
                                             TaxId = "002",
                                             TaxTypeId = "Tasa",
                                             TaxRate = 0.160000m,
-                                            Amount = 16
+                                     
+                                        },
+                                        new PaymentInvoiceTransferredTax
+                                        {
+                                            Base = 90000m,
+                                            TaxId = "002",
+                                            TaxTypeId = "Tasa",
+                                            TaxRate = 0.080000m,
+
                                         },
                                         new PaymentInvoiceTransferredTax
                                         {
                                             Base = 90000m,
                                             TaxId = "003",
                                             TaxTypeId = "Tasa",
-                                            TaxRate = 0.080000m,
-                                            Amount = 8
+                                            TaxRate = 0.010000m,
+                                           
                                         }
                                     },
                                     WithholdingTaxes = new List<PaymentInvoiceWithholdingTax>()
@@ -468,57 +478,12 @@ namespace InvoicingSamples
                                             Base = 90000m,
                                             TaxId = "002",
                                             TaxTypeId = "Tasa",
-                                            TaxRate = 0.060000m,
-                                            Amount = 95400
+                                            TaxRate = 0.106666m,
                                         }
                                     }
                                 }
                             }
-                        },
-                        //PaymentTaxexWrapper = new PaymentTaxesWrapper
-                        //{
-                        //    PaymentWithholdingTaxes = new List<PaymentWithholdingTax>
-                        //    {
-                        //        new PaymentWithholdingTax()
-                        //        {
-                        //            TaxId = "002",
-                        //            Amount = 95400
-                        //        }
-                        //    },
-                        //    PaymentTransferredTaxes = new List<PaymentTransferredTax>()
-                        //    {
-                        //        new PaymentTransferredTax
-                        //        {
-                        //            Base = 90000m,
-                        //            TaxId = "002",
-                        //            TaxTypeId = "Exento"
-                        //        },
-                        //        new PaymentTransferredTax
-                        //        {
-                        //            Base = 90000m,
-                        //            TaxId = "002",
-                        //            TaxTypeId = "Tasa",
-                        //            TaxRate = 0.000000m,
-                        //            Amount = 0
-                        //        },
-                        //        new PaymentTransferredTax
-                        //        {
-                        //            Base = 90000m,
-                        //            TaxId = "002",
-                        //            TaxTypeId = "Tasa",
-                        //            TaxRate = 0.160000m,
-                        //            Amount = 16
-                        //        },
-                        //        new PaymentTransferredTax
-                        //        {
-                        //            Base = 90000m,
-                        //            TaxId = "003",
-                        //            TaxTypeId = "Tasa",
-                        //            TaxRate = 0.080000m,
-                        //            Amount = 8
-                        //        }
-                        //    }
-                        //}
+                        }
                     }
                 }
             };
@@ -531,7 +496,8 @@ namespace InvoicingSamples
 
             //insert complement into invoice
 
-            var paymentComplementXml = Serializer<Invoice>.SerializeToXmlElement(paymentComplement);
+            var paymentComplementXml =
+                Serializer<Invoice>.SerializeElement(paymentComplement, InvoiceConstants.SatPayment20Namespace.GetSerializerNamespace("pago20"));
             invoice.AddComplement(paymentComplementXml);
 
 
@@ -547,7 +513,10 @@ namespace InvoicingSamples
             xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
 
             File.WriteAllText("payment-invoice.xml", xml);
+        }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
         }
     }
 }
