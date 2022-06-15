@@ -426,8 +426,8 @@ namespace InvoicingSamples
                                 PreviousBalanceAmount = 98618.388800m,
                                 PaymentAmount = 90000m,
                                 RemainingBalance = 8618.3888m,
-                                TaxObjectId = InvoiceConstants.SatPaymentObjectId,
-                                
+                                TaxObjectId = TaxationObject.YesSubjectToTax.ToValue(),
+
                                 InvoiceTaxesWrapper = new PaymentInvoiceTaxesWrapper()
                                 {
                                     InvoiceTransferredTaxes = new List<PaymentInvoiceTransferredTax>
@@ -436,39 +436,35 @@ namespace InvoicingSamples
                                         {
                                             Base = 90000m,
                                             TaxId = "002",
-                                            TaxTypeId = "Exento"
+                                            TaxTypeId = TaxType.Exento.ToValue()
                                         },
                                         new PaymentInvoiceTransferredTax
                                         {
                                             Base = 90000m,
                                             TaxId = "002",
-                                            TaxTypeId = "Tasa",
+                                            TaxTypeId = TaxType.Tasa.ToValue(),
                                             TaxRate = 0.000000m,
-                                         
                                         },
                                         new PaymentInvoiceTransferredTax
                                         {
                                             Base = 90000m,
                                             TaxId = "002",
-                                            TaxTypeId = "Tasa",
+                                            TaxTypeId = TaxType.Tasa.ToValue(),
                                             TaxRate = 0.160000m,
-                                     
                                         },
                                         new PaymentInvoiceTransferredTax
                                         {
                                             Base = 90000m,
                                             TaxId = "002",
-                                            TaxTypeId = "Tasa",
+                                            TaxTypeId = TaxType.Tasa.ToValue(),
                                             TaxRate = 0.080000m,
-
                                         },
                                         new PaymentInvoiceTransferredTax
                                         {
                                             Base = 90000m,
                                             TaxId = "003",
-                                            TaxTypeId = "Tasa",
-                                            TaxRate = 0.010000m,
-                                           
+                                            TaxTypeId = TaxType.Tasa.ToValue(),
+                                            TaxRate = 0.530000m,
                                         }
                                     },
                                     WithholdingTaxes = new List<PaymentInvoiceWithholdingTax>()
@@ -477,7 +473,7 @@ namespace InvoicingSamples
                                         {
                                             Base = 90000m,
                                             TaxId = "002",
-                                            TaxTypeId = "Tasa",
+                                            TaxTypeId = TaxType.Tasa.ToValue(),
                                             TaxRate = 0.106666m,
                                         }
                                     }
@@ -497,7 +493,8 @@ namespace InvoicingSamples
             //insert complement into invoice
 
             var paymentComplementXml =
-                Serializer<Invoice>.SerializeElement(paymentComplement, InvoiceConstants.SatPayment20Namespace.GetSerializerNamespace("pago20"));
+                Serializer<Invoice>.SerializeElement(paymentComplement,
+                    InvoiceConstants.SatPayment20Namespace.GetSerializerNamespace("pago20"));
             invoice.AddComplement(paymentComplementXml);
 
 
@@ -513,6 +510,9 @@ namespace InvoicingSamples
             xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
 
             File.WriteAllText("payment-invoice.xml", xml);
+
+
+            MessageBox.Show("OK");
         }
 
         private void Form1_Load(object sender, EventArgs e)
