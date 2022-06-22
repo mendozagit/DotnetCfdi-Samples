@@ -28,11 +28,6 @@ namespace InvoicingSamples
 
         private void CfdiIngresoButton_Click(object sender, EventArgs e)
         {
-            var xml = BuildXmlCfdiIngreso();
-        }
-
-        private string BuildXmlCfdiIngreso()
-        {
             var xml = string.Empty;
             SerializerHelper.ConfigureSettingsForInvoice();
 
@@ -189,7 +184,7 @@ namespace InvoicingSamples
                 PacConfirmation = null,
                 SchemaLocation = SerializerHelper.SchemaLocation,
                 GlobalInformation = null,
-                InvoiceRelateds = null,
+                RelatedInvoiceWrapper = null,
                 InvoiceIssuer = issuer,
                 InvoiceRecipient = recipient,
                 InvoiceItems = ivoiceItems,
@@ -208,8 +203,7 @@ namespace InvoicingSamples
 
             File.WriteAllText("invoice.xml", xml);
 
-
-            return xml;
+            MessageBox.Show(@"Ok");
         }
 
 
@@ -382,7 +376,7 @@ namespace InvoicingSamples
                 PacConfirmation = null,
                 SchemaLocation = SerializerHelper.SchemaLocation,
                 GlobalInformation = null,
-                InvoiceRelateds = null,
+                RelatedInvoiceWrapper = null,
                 InvoiceIssuer = issuer,
                 InvoiceRecipient = recipient,
                 InvoiceItems = ivoiceItems,
@@ -512,11 +506,205 @@ namespace InvoicingSamples
             File.WriteAllText("payment-invoice.xml", xml);
 
 
-            MessageBox.Show("OK");
+            MessageBox.Show(@"Ok");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+        }
+
+        private void CreditNoteButton_Click(object sender, EventArgs e)
+        {
+            var xml = string.Empty;
+
+            SerializerHelper.ConfigureSettingsForInvoice();
+
+            // emisor
+            var issuer = new InvoiceIssuer
+            {
+                Tin = "MEJJ940824C61",
+                LegalName = "JESUS MENDOZA JUAREZ",
+                TaxRegimeId = "621", //RIF
+                OperationNumber = null,
+            };
+
+            //receptor
+            var recipient = new InvoiceRecipient
+            {
+                Tin = "DGE131017IP1",
+                LegalName = "DYM GENERICOS",
+                ZipCode = "38050",
+                ForeignCountryId = null,
+                ForeignTin = null,
+                TaxRegimeId = "601", //General de Ley Personas Morales
+                CfdiUseId = "G03" //Adquisición de mercancías.
+            };
+
+            var itemTaxes = new InvoiceItemTaxesWrapper
+            {
+                TransferredTaxes = new List<InvoiceItemTax>
+                {
+                    new InvoiceItemTax
+                    {
+                        Base = 100,
+                        TaxId = "002",
+                        TaxTypeId = "Exento"
+                    },
+                    new InvoiceItemTax
+                    {
+                        Base = 100,
+                        TaxId = "002",
+                        TaxTypeId = "Tasa",
+                        TaxRate = 0.160000m,
+                        Amount = 16
+                    },
+                    new InvoiceItemTax
+                    {
+                        Base = 100,
+                        TaxId = "002",
+                        TaxTypeId = "Tasa",
+                        TaxRate = 0.160000m,
+                        Amount = 16
+                    },
+                    new InvoiceItemTax
+                    {
+                        Base = 100,
+                        TaxId = "003",
+                        TaxTypeId = "Tasa",
+                        TaxRate = 0.080000m,
+                        Amount = 8
+                    }
+                },
+                WithholdingTaxes = new List<InvoiceItemTax>
+                {
+                    new InvoiceItemTax
+                    {
+                        Base = 100,
+                        TaxId = "002",
+                        TaxTypeId = "Tasa",
+                        TaxRate = 0.060000m,
+                        Amount = 6
+                    }
+                }
+            };
+
+            //conceptos
+            var ivoiceItems = new List<InvoiceItem>()
+            {
+                new InvoiceItem
+                {
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
+                    ItemId = "1801",
+                    Quantity = 1,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                    UnitOfMeasure = "PZA",
+                    Description = "Product description 1",
+                    UnitCost = 200,
+                    Amount = 200,
+                    Discount = 0,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
+                    ItemTaxex = itemTaxes
+                },
+                new InvoiceItem
+                {
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
+                    ItemId = "1802",
+                    Quantity = 1,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                    UnitOfMeasure = "PZA",
+                    Description = "Product description 2",
+                    UnitCost = 200,
+                    Amount = 200,
+                    Discount = 0,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
+                    ItemTaxex = itemTaxes
+                },
+                new InvoiceItem
+                {
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
+                    ItemId = "1803",
+                    Quantity = 1,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                    UnitOfMeasure = "PZA",
+                    Description = "Product description 3",
+                    UnitCost = 200,
+                    Amount = 200,
+                    Discount = 0,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
+                    ItemTaxex = itemTaxes
+                },
+                new InvoiceItem
+                {
+                    SatItemId = InvoiceConstants.SatInvoiceItemId,
+                    ItemId = "1804",
+                    Quantity = 1,
+                    UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                    UnitOfMeasure = "PZA",
+                    Description = "Product description 4",
+                    UnitCost = 200,
+                    Amount = 200,
+                    Discount = 0,
+                    TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
+                    ItemTaxex = itemTaxes
+                }
+            };
+
+            //Relationshipt with original invoice for a credit note (factura de egreso)
+            //Where original invoice uuid is: 1fac4464-1111-0000-1111-cd37179db12e
+            var relatedInvoiceWrapper = new InvoiceRelatedWrapper
+            {
+                RelatedInvoices = new List<InvoiceRelated>()
+                {
+                    new InvoiceRelated
+                    {
+                        InvoiceUuid = "1fac4464-1111-0000-1111-cd37179db12e"
+                    }
+                },
+                RelationshipTypeId = InvoiceRelationshipType.CreditNoteOfRelatedDocuments.ToValue()
+            };
+
+            //comprobante
+            var invoice = new Invoice
+            {
+                InvoiceVersion = InvoiceVersion.V40,
+                InvoiceSerie = InvoiceSerie.Egreso.ToValue(),
+                InvoiceNuber = "1234",
+                InvoiceDate = DateTime.Now.ToSatFormat(),
+                PaymentForm = "01",
+                CertificateNumber = credential.Certificate.CertificateNumber,
+                CertificateB64 = credential.Certificate.PlainBase64,
+                PaymentConditions = null,
+                Subtotal = 0,
+                Discount = 0,
+                Currency = InvoiceCurrency.MXN.ToValue(),
+                ExchangeRate = 0,
+                Total = 0,
+                InvoiceTypeId = InvoiceType.Egreso,
+                ExportId = "01",
+                PaymentMethodId = "PUE",
+                ExpeditionZipCode = "38034",
+                PacConfirmation = null,
+                SchemaLocation = SerializerHelper.SchemaLocation,
+                GlobalInformation = null,
+                RelatedInvoiceWrapper = relatedInvoiceWrapper,
+                InvoiceIssuer = issuer,
+                InvoiceRecipient = recipient,
+                InvoiceItems = ivoiceItems,
+            };
+
+            invoice.Compute();
+
+            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
+
+
+            var originalStr = credential.GetOriginalStringByXmlString(xml);
+            var signature = credential.SignData(originalStr);
+            invoice.SignatureValue = signature.ToBase64String();
+
+            xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
+
+            File.WriteAllText("credit-note-invoice.xml", xml);
+            MessageBox.Show(@"Ok");
         }
     }
 }

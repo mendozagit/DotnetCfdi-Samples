@@ -30,6 +30,7 @@
         {
             this.CfdiIngresoButton = new System.Windows.Forms.Button();
             this.PaymentButton = new System.Windows.Forms.Button();
+            this.CreditNoteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CfdiIngresoButton
@@ -45,7 +46,7 @@
             // 
             // PaymentButton
             // 
-            this.PaymentButton.Location = new System.Drawing.Point(253, 97);
+            this.PaymentButton.Location = new System.Drawing.Point(206, 97);
             this.PaymentButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.PaymentButton.Name = "PaymentButton";
             this.PaymentButton.Size = new System.Drawing.Size(149, 79);
@@ -54,11 +55,23 @@
             this.PaymentButton.UseVisualStyleBackColor = true;
             this.PaymentButton.Click += new System.EventHandler(this.PaymentButton_Click);
             // 
+            // CreditNoteButton
+            // 
+            this.CreditNoteButton.Location = new System.Drawing.Point(359, 97);
+            this.CreditNoteButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.CreditNoteButton.Name = "CreditNoteButton";
+            this.CreditNoteButton.Size = new System.Drawing.Size(149, 79);
+            this.CreditNoteButton.TabIndex = 2;
+            this.CreditNoteButton.Text = "CFDI EGRESO";
+            this.CreditNoteButton.UseVisualStyleBackColor = true;
+            this.CreditNoteButton.Click += new System.EventHandler(this.CreditNoteButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 360);
+            this.Controls.Add(this.CreditNoteButton);
             this.Controls.Add(this.PaymentButton);
             this.Controls.Add(this.CfdiIngresoButton);
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -74,5 +87,6 @@
 
         private Button CfdiIngresoButton;
         private Button PaymentButton;
+        private Button CreditNoteButton;
     }
 }
