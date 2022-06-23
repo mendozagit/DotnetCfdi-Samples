@@ -10,6 +10,7 @@ using Invoicing.Common.Enums;
 using Invoicing.Common.Extensions;
 using Invoicing.Common.Serializing;
 using Invoicing.Complements.Payments;
+using Invoicing.Servicies;
 using Invoice = Invoicing.Base.Invoice;
 
 namespace InvoicingSamples
@@ -705,6 +706,72 @@ namespace InvoicingSamples
 
             File.WriteAllText("credit-note-invoice.xml", xml);
             MessageBox.Show(@"Ok");
+        }
+
+        private void IngresoServicebutton_Click(object sender, EventArgs e)
+        {
+            var invoice = new InvoiceService();
+
+
+            var invoiceIten1 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1801",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 1",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId
+            };
+
+
+            invoiceIten1.AddTransferredTax(invoiceIten1.Amount,"002","Tasa",.0160000,)
+
+
+            var invoiceIten2 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1802",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 2",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
+            };
+            var invoiceIten3 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1803",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 3",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId
+            };
+            var invoiceIten4 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1804",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 4",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId
+            };
+
+
         }
     }
 }
