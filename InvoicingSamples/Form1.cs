@@ -191,6 +191,7 @@ namespace InvoicingSamples
                 InvoiceItems = ivoiceItems,
             };
 
+
             invoice.Compute();
 
             xml = Serializer<Invoice>.Serialize(invoice, SerializerHelper.Namespaces, new XmlWriterSettings());
@@ -708,12 +709,12 @@ namespace InvoicingSamples
             MessageBox.Show(@"Ok");
         }
 
-        private void IngresoServicebutton_Click(object sender, EventArgs e)
+        private async void IngresoServicebutton_Click(object sender, EventArgs e)
         {
-            var invoice = new InvoiceService();
+            var invoiceService = new InvoiceService();
 
 
-            var invoiceIten1 = new InvoiceItem
+            var invoiceItem1 = new InvoiceItem
             {
                 SatItemId = InvoiceConstants.SatInvoiceItemId,
                 ItemId = "1801",
@@ -726,12 +727,13 @@ namespace InvoicingSamples
                 Discount = 0,
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId
             };
+            invoiceItem1.AddTransferredTax("002", "Exento");
+            invoiceItem1.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem1.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem1.AddTransferredTax("003", "Tasa", 0.08m);
+            invoiceItem1.AddWithholdingTax("003", "Tasa", 0.06m);
 
-
-            invoiceIten1.AddTransferredTax(invoiceIten1.Amount,"002","Tasa",.0160000,)
-
-
-            var invoiceIten2 = new InvoiceItem
+            var invoiceItem2 = new InvoiceItem
             {
                 SatItemId = InvoiceConstants.SatInvoiceItemId,
                 ItemId = "1802",
@@ -744,7 +746,13 @@ namespace InvoicingSamples
                 Discount = 0,
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
             };
-            var invoiceIten3 = new InvoiceItem
+            invoiceItem2.AddTransferredTax("002", "Exento");
+            invoiceItem2.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem2.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem2.AddTransferredTax("003", "Tasa", 0.08m);
+            invoiceItem2.AddWithholdingTax("003", "Tasa", 0.06m);
+
+            var invoiceItem3 = new InvoiceItem
             {
                 SatItemId = InvoiceConstants.SatInvoiceItemId,
                 ItemId = "1803",
@@ -757,7 +765,13 @@ namespace InvoicingSamples
                 Discount = 0,
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId
             };
-            var invoiceIten4 = new InvoiceItem
+            invoiceItem3.AddTransferredTax("002", "Exento");
+            invoiceItem3.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem3.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem3.AddTransferredTax("003", "Tasa", 0.08m);
+            invoiceItem3.AddWithholdingTax("003", "Tasa", 0.06m);
+
+            var invoiceItem4 = new InvoiceItem
             {
                 SatItemId = InvoiceConstants.SatInvoiceItemId,
                 ItemId = "1804",
@@ -770,8 +784,25 @@ namespace InvoicingSamples
                 Discount = 0,
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId
             };
+            invoiceItem4.AddTransferredTax("002", "Exento");
+            invoiceItem4.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem4.AddTransferredTax("002", "Tasa", 0.16m);
+            invoiceItem4.AddTransferredTax("003", "Tasa", 0.08m);
+            invoiceItem4.AddWithholdingTax("003", "Tasa", 0.06m);
 
 
+            invoiceService.AddInvoiceItem(invoiceItem1);
+            invoiceService.AddInvoiceItem(invoiceItem2);
+            invoiceService.AddInvoiceItem(invoiceItem3);
+            invoiceService.AddInvoiceItem(invoiceItem4);
+            //invoiceService.AddInvoiceItems()
+
+
+            MessageBox.Show("Test" + invoiceService.Invoice.PacConfirmation);
+
+            invoiceService.Compute();
+            var xml = invoiceService.SerializeToString();
+            await File.WriteAllTextAsync("invoice-by-service.xml", xml);
         }
     }
 }
