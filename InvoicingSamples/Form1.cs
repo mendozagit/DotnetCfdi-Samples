@@ -711,7 +711,53 @@ namespace InvoicingSamples
 
         private async void IngresoServicebutton_Click(object sender, EventArgs e)
         {
-            var invoiceService = new InvoiceService();
+            var invoiceService = new InvoiceService
+            {
+                InvoiceVersion = InvoiceVersion.V40,
+                InvoiceSerie = InvoiceSerie.Ingreso.ToValue(),
+                InvoiceNuber = "1234",
+                InvoiceDate = DateTime.Now.ToSatFormat(),
+                PaymentForm = "01",
+                CertificateNumber = credential.Certificate.CertificateNumber,
+                CertificateB64 = credential.Certificate.PlainBase64,
+                PaymentConditions = null,
+                Subtotal = 0,
+                Discount = 0,
+                Currency = InvoiceCurrency.MXN.ToValue(),
+                ExchangeRate = 0,
+                Total = 0,
+                InvoiceTypeId = InvoiceType.Ingreso,
+                ExportId = "01",
+                PaymentMethodId = "PUE",
+                ExpeditionZipCode = "38034",
+                PacConfirmation = null,
+                Credential = credential
+            };
+
+
+            // emisor
+            var issuer = new InvoiceIssuer
+            {
+                Tin = "MEJJ940824C61",
+                LegalName = "JESUS MENDOZA JUAREZ",
+                TaxRegimeId = "621", //RIF
+                OperationNumber = null,
+            };
+            invoiceService.AddIssuer(issuer);
+
+
+            //receptor
+            var recipient = new InvoiceRecipient
+            {
+                Tin = "DGE131017IP1",
+                LegalName = "DYM GENERICOS",
+                ZipCode = "38050",
+                ForeignCountryId = null,
+                ForeignTin = null,
+                TaxRegimeId = "601", //General de Ley Personas Morales
+                CfdiUseId = "G03" //Adquisición de mercancías.
+            };
+            invoiceService.AddRecipient(recipient);
 
 
             var invoiceItem1 = new InvoiceItem
@@ -728,10 +774,10 @@ namespace InvoicingSamples
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId
             };
             invoiceItem1.AddTransferredTax("002", "Exento");
-            invoiceItem1.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem1.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem1.AddTransferredTax("003", "Tasa", 0.08m);
-            invoiceItem1.AddWithholdingTax("003", "Tasa", 0.06m);
+            invoiceItem1.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem1.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem1.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem1.AddWithholdingTax("003", "Tasa", 0.060000m);
 
             var invoiceItem2 = new InvoiceItem
             {
@@ -747,10 +793,10 @@ namespace InvoicingSamples
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
             };
             invoiceItem2.AddTransferredTax("002", "Exento");
-            invoiceItem2.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem2.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem2.AddTransferredTax("003", "Tasa", 0.08m);
-            invoiceItem2.AddWithholdingTax("003", "Tasa", 0.06m);
+            invoiceItem2.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem2.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem2.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem2.AddWithholdingTax("003", "Tasa", 0.060000m);
 
             var invoiceItem3 = new InvoiceItem
             {
@@ -766,10 +812,10 @@ namespace InvoicingSamples
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId
             };
             invoiceItem3.AddTransferredTax("002", "Exento");
-            invoiceItem3.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem3.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem3.AddTransferredTax("003", "Tasa", 0.08m);
-            invoiceItem3.AddWithholdingTax("003", "Tasa", 0.06m);
+            invoiceItem3.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem3.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem3.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem3.AddWithholdingTax("003", "Tasa", 0.060000m);
 
             var invoiceItem4 = new InvoiceItem
             {
@@ -785,10 +831,10 @@ namespace InvoicingSamples
                 TaxObjectId = InvoiceConstants.SatInvoiceObjectId
             };
             invoiceItem4.AddTransferredTax("002", "Exento");
-            invoiceItem4.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem4.AddTransferredTax("002", "Tasa", 0.16m);
-            invoiceItem4.AddTransferredTax("003", "Tasa", 0.08m);
-            invoiceItem4.AddWithholdingTax("003", "Tasa", 0.06m);
+            invoiceItem4.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem4.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem4.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem4.AddWithholdingTax("003", "Tasa", 0.060000m);
 
 
             invoiceService.AddInvoiceItem(invoiceItem1);
@@ -798,11 +844,11 @@ namespace InvoicingSamples
             //invoiceService.AddInvoiceItems()
 
 
-            MessageBox.Show("Test" + invoiceService.Invoice.PacConfirmation);
-
-            invoiceService.Compute();
+            invoiceService.SignInvoice();
             var xml = invoiceService.SerializeToString();
             await File.WriteAllTextAsync("invoice-by-service.xml", xml);
+
+            MessageBox.Show(@"Ok");
         }
     }
 }
