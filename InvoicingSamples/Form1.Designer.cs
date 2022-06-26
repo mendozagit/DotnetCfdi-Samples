@@ -49,7 +49,7 @@
             // 
             // PaymentButton
             // 
-            this.PaymentButton.Location = new System.Drawing.Point(242, 39);
+            this.PaymentButton.Location = new System.Drawing.Point(395, 39);
             this.PaymentButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.PaymentButton.Name = "PaymentButton";
             this.PaymentButton.Size = new System.Drawing.Size(149, 79);
@@ -60,7 +60,7 @@
             // 
             // CreditNoteButton
             // 
-            this.CreditNoteButton.Location = new System.Drawing.Point(395, 39);
+            this.CreditNoteButton.Location = new System.Drawing.Point(242, 39);
             this.CreditNoteButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.CreditNoteButton.Name = "CreditNoteButton";
             this.CreditNoteButton.Size = new System.Drawing.Size(149, 79);
@@ -71,7 +71,7 @@
             // 
             // CreditNoteServiceButton
             // 
-            this.CreditNoteServiceButton.Location = new System.Drawing.Point(395, 198);
+            this.CreditNoteServiceButton.Location = new System.Drawing.Point(242, 198);
             this.CreditNoteServiceButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.CreditNoteServiceButton.Name = "CreditNoteServiceButton";
             this.CreditNoteServiceButton.Size = new System.Drawing.Size(149, 79);
@@ -82,7 +82,7 @@
             // 
             // PaymentServiceButton
             // 
-            this.PaymentServiceButton.Location = new System.Drawing.Point(242, 198);
+            this.PaymentServiceButton.Location = new System.Drawing.Point(395, 198);
             this.PaymentServiceButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.PaymentServiceButton.Name = "PaymentServiceButton";
             this.PaymentServiceButton.Size = new System.Drawing.Size(149, 79);
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 360);
+            this.ClientSize = new System.Drawing.Size(939, 360);
             this.Controls.Add(this.CreditNoteServiceButton);
             this.Controls.Add(this.PaymentServiceButton);
             this.Controls.Add(this.IngresoServicebutton);
