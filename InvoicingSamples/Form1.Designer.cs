@@ -78,6 +78,7 @@
             this.CreditNoteServiceButton.TabIndex = 5;
             this.CreditNoteServiceButton.Text = "CFDI EGRESO (WITH SERVICE)";
             this.CreditNoteServiceButton.UseVisualStyleBackColor = true;
+            this.CreditNoteServiceButton.Click += new System.EventHandler(this.CreditNoteServiceButton_Click);
             // 
             // PaymentServiceButton
             // 
@@ -88,6 +89,7 @@
             this.PaymentServiceButton.TabIndex = 4;
             this.PaymentServiceButton.Text = "CFDI PAGO (WITH SERVICE)";
             this.PaymentServiceButton.UseVisualStyleBackColor = true;
+            this.PaymentServiceButton.Click += new System.EventHandler(this.PaymentServiceButton_Click);
             // 
             // IngresoServicebutton
             // 

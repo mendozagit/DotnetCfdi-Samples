@@ -850,6 +850,127 @@ namespace InvoicingSamples
 
             MessageBox.Show(@"Ok");
         }
+
+        private void PaymentServiceButton_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void CreditNoteServiceButton_Click(object sender, EventArgs e)
+        {
+            //credit note service
+            var creditNoteService = new CreditNoteService()
+            {
+                InvoiceSerie = InvoiceSerie.Egreso.ToValue(),
+                InvoiceNuber = "1234",
+                InvoiceDate = DateTime.Now.ToSatFormat(),
+                PaymentForm = "01",
+                CertificateNumber = credential.Certificate.CertificateNumber,
+                CertificateB64 = credential.Certificate.PlainBase64,
+                Currency = InvoiceCurrency.MXN.ToValue(),
+                PaymentMethodId = "PUE",
+                ExpeditionZipCode = "38034",
+                Credential = credential
+            };
+
+            // emisor
+            creditNoteService.AddIssuer("MEJJ940824C61", "JESUS MENDOZA JUAREZ", "621");
+
+
+            //receptor
+            creditNoteService.AddRecipient("DGE131017IP1", "DYM GENERICOS", "38050", "601", "G03");
+
+
+            var invoiceItem1 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1801",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 1",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId
+            };
+            invoiceItem1.AddTransferredTax("002", "Exento");
+            invoiceItem1.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem1.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem1.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem1.AddWithholdingTax("003", "Tasa", 0.060000m);
+
+            var invoiceItem2 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1802",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 2",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId,
+            };
+            invoiceItem2.AddTransferredTax("002", "Exento");
+            invoiceItem2.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem2.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem2.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem2.AddWithholdingTax("003", "Tasa", 0.060000m);
+
+            var invoiceItem3 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1803",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 3",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId
+            };
+            invoiceItem3.AddTransferredTax("002", "Exento");
+            invoiceItem3.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem3.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem3.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem3.AddWithholdingTax("003", "Tasa", 0.060000m);
+
+            var invoiceItem4 = new InvoiceItem
+            {
+                SatItemId = InvoiceConstants.SatInvoiceItemId,
+                ItemId = "1804",
+                Quantity = 1,
+                UnitOfMeasureId = InvoiceConstants.SatInvoiceUnitOfMeasureId,
+                UnitOfMeasure = "PZA",
+                Description = "Product description 4",
+                UnitCost = 200,
+                Amount = 200,
+                Discount = 0,
+                TaxObjectId = InvoiceConstants.SatInvoiceObjectId
+            };
+            invoiceItem4.AddTransferredTax("002", "Exento");
+            invoiceItem4.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem4.AddTransferredTax("002", "Tasa", 0.160000m);
+            invoiceItem4.AddTransferredTax("003", "Tasa", 0.080000m);
+            invoiceItem4.AddWithholdingTax("003", "Tasa", 0.060000m);
+
+
+            creditNoteService.AddInvoiceItem(invoiceItem1);
+            creditNoteService.AddInvoiceItem(invoiceItem2);
+            creditNoteService.AddInvoiceItem(invoiceItem3);
+            creditNoteService.AddInvoiceItem(invoiceItem4);
+
+
+            creditNoteService.AddRelatedCfdi("1fac4464-1111-0000-1111-cd37179db12e");
+
+            creditNoteService.SignInvoice();
+
+            creditNoteService.SerializeToFile("credit-note-service.xml");
+
+            MessageBox.Show(@"OK");
+        }
     }
 }
 
