@@ -851,7 +851,7 @@ namespace InvoicingSamples
             MessageBox.Show(@"Ok");
         }
 
-        private void PaymentServiceButton_Click(object sender, EventArgs e)
+        private async void PaymentServiceButton_Click(object sender, EventArgs e)
         {
             var service = new PaymentService()
             {
@@ -864,6 +864,7 @@ namespace InvoicingSamples
                 Total = 0,
                 ExportId = "01", //Se debe registrar la clave “01” (No aplica).
                 ExpeditionZipCode = "38034",
+                Credential = credential
 
                 //PaymentMethodId = "PUE",Este campo no debe existir.
                 //ExchangeRate = 1, Este campo no debe existir.
@@ -878,10 +879,104 @@ namespace InvoicingSamples
 
 
             //receptor
-            service.AddRecipient("DGE131017IP1", "DYM GENERICOS", "38050", "601", "G03");
+            service.AddRecipient("DGE131017IP1", "DYM GENERICOS", "38050", "601", "CP01");
 
 
+            //Payment
+            var payment = new Payment
+            {
+                PaymentDate = DateTime.Now.ToSatFormat(),
+                PaymentFormId = "28",
+                CurrencyId = InvoiceCurrency.MXN.ToValue(),
+                ExchangeRate = 1,
+                Amount = 90000,
+                OperationNumber = null,
+                OriginBankTin = "BSM970519DU8",
+                OriginBankAccountNumber = "1234567891012131",
+                DestinationBankTin = "BBA830831LJ2",
+                DestinationAccountNumber = "1234567890",
+            };
 
+
+            //Payment invoice
+            var paymentInvoice = new PaymentInvoice
+            {
+                InvoiceUuid = "5C7B0622-01B4-4EB8-96D0-E0DEBD89FF0F",
+                InvoiceSeries = "F",
+                InvoiceNumber = "1127",
+                InvoiceCurrencyId = InvoiceCurrency.MXN.ToValue(),
+                InvoiceExchangeRate = 1,
+                PartialityNumber = 1,
+                PreviousBalanceAmount = 98618.388800m,
+                PaymentAmount = 90000m,
+                RemainingBalance = 8618.3888m,
+                TaxObjectId = TaxationObject.YesSubjectToTax.ToValue(),
+            };
+
+            //Paymet invoice Taxes
+            var invoiceTransferredTaxes = new List<PaymentInvoiceTransferredTax>
+            {
+                new PaymentInvoiceTransferredTax
+                {
+                    Base = 90000m,
+                    TaxId = "002",
+                    TaxTypeId = TaxType.Exento.ToValue()
+                },
+                new PaymentInvoiceTransferredTax
+                {
+                    Base = 90000m,
+                    TaxId = "002",
+                    TaxTypeId = TaxType.Tasa.ToValue(),
+                    TaxRate = 0.000000m,
+                },
+                new PaymentInvoiceTransferredTax
+                {
+                    Base = 90000m,
+                    TaxId = "002",
+                    TaxTypeId = TaxType.Tasa.ToValue(),
+                    TaxRate = 0.160000m,
+                },
+                new PaymentInvoiceTransferredTax
+                {
+                    Base = 90000m,
+                    TaxId = "002",
+                    TaxTypeId = TaxType.Tasa.ToValue(),
+                    TaxRate = 0.080000m,
+                },
+                new PaymentInvoiceTransferredTax
+                {
+                    Base = 90000m,
+                    TaxId = "003",
+                    TaxTypeId = TaxType.Tasa.ToValue(),
+                    TaxRate = 0.530000m,
+                }
+            };
+            var withholdingTaxes = new List<PaymentInvoiceWithholdingTax>()
+            {
+                new PaymentInvoiceWithholdingTax()
+                {
+                    Base = 90000m,
+                    TaxId = "002",
+                    TaxTypeId = TaxType.Tasa.ToValue(),
+                    TaxRate = 0.106666m,
+                }
+            };
+
+            //Addind taxex to payment invoice
+            paymentInvoice.AddTransferredTaxes(invoiceTransferredTaxes);
+            paymentInvoice.AddWithholdingTaxes(withholdingTaxes);
+
+            //add invoice to payment
+            payment.AddInvoice(paymentInvoice);
+
+            //add payment to payment service
+            service.AddPayment(payment);
+
+            service.SignInvoice();
+            var xml = service.SerializeToString();
+            await File.WriteAllTextAsync("payment-invoice-service.xml", xml);
+
+            MessageBox.Show(@"Ok");
         }
 
         private void CreditNoteServiceButton_Click(object sender, EventArgs e)
