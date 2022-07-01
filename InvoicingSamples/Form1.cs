@@ -853,6 +853,35 @@ namespace InvoicingSamples
 
         private void PaymentServiceButton_Click(object sender, EventArgs e)
         {
+            var service = new PaymentService()
+            {
+                InvoiceNuber = "1235",
+                InvoiceDate = DateTime.Now.ToSatFormat(),
+                CertificateNumber = credential.Certificate.CertificateNumber,
+                CertificateB64 = credential.Certificate.PlainBase64,
+                Subtotal = 0,
+                Currency = InvoiceCurrency.XXX.ToValue(),
+                Total = 0,
+                ExportId = "01", //Se debe registrar la clave “01” (No aplica).
+                ExpeditionZipCode = "38034",
+
+                //PaymentMethodId = "PUE",Este campo no debe existir.
+                //ExchangeRate = 1, Este campo no debe existir.
+                //Discount = 0, Este campo no debe existir.
+                //PaymentForm = "01", Este campo no debe existir.
+                //PaymentConditions = null, Este campo no debe existir.
+            };
+
+
+            // emisor
+            service.AddIssuer("MEJJ940824C61", "JESUS MENDOZA JUAREZ", "621");
+
+
+            //receptor
+            service.AddRecipient("DGE131017IP1", "DYM GENERICOS", "38050", "601", "G03");
+
+
+
         }
 
         private void CreditNoteServiceButton_Click(object sender, EventArgs e)

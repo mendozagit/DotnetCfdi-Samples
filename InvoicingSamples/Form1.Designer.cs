@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 360);
+            this.ClientSize = new System.Drawing.Size(612, 360);
             this.Controls.Add(this.CreditNoteServiceButton);
             this.Controls.Add(this.PaymentServiceButton);
             this.Controls.Add(this.IngresoServicebutton);
