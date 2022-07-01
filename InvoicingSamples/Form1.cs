@@ -398,7 +398,7 @@ namespace InvoicingSamples
                         PaymentFormId = "28",
                         CurrencyId = InvoiceCurrency.MXN.ToValue(),
                         ExchangeRate = 1,
-                        Ammount = 90000,
+                        Amount = 90000,
                         OperationNumber = null,
                         OriginBankTin = "BSM970519DU8",
                         OriginBankAccountNumber = "1234567891012131",
