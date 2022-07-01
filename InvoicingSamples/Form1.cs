@@ -426,7 +426,7 @@ namespace InvoicingSamples
 
                                 InvoiceTaxesWrapper = new PaymentInvoiceTaxesWrapper()
                                 {
-                                    InvoiceTransferredTaxes = new List<PaymentInvoiceTransferredTax>
+                                    TransferredTaxes = new List<PaymentInvoiceTransferredTax>
                                     {
                                         new PaymentInvoiceTransferredTax
                                         {
@@ -1094,6 +1094,11 @@ namespace InvoicingSamples
             creditNoteService.SerializeToFile("credit-note-service.xml");
 
             MessageBox.Show(@"OK");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
