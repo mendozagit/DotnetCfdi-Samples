@@ -1169,7 +1169,7 @@ namespace InvoicingSamples
             service.AddTransferredTax("002", "Tasa", 0.000000m);
             service.AddTransferredTax("002", "Tasa", 0.160000m);
             service.AddTransferredTax("002", "Tasa", 0.080000m);
-            service.AddTransferredTax("002", "Tasa", 0.530000m);
+            service.AddTransferredTax("003", "Tasa", 0.530000m);
             service.AddWithholdingTax("002", "Tasa", 0.106666m);
 
 
