@@ -1096,9 +1096,88 @@ namespace InvoicingSamples
             MessageBox.Show(@"OK");
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
 
+        private async void PaymentServiceButton2_Click(object sender, EventArgs e)
+        {
+            var service = new PaymentService()
+            {
+                InvoiceNuber = "1235",
+                InvoiceDate = DateTime.Now.ToSatFormat(),
+                CertificateNumber = credential.Certificate.CertificateNumber,
+                CertificateB64 = credential.Certificate.PlainBase64,
+                Subtotal = 0,
+                Currency = InvoiceCurrency.XXX.ToValue(),
+                Total = 0,
+                ExportId = "01", //Se debe registrar la clave “01” (No aplica).
+                ExpeditionZipCode = "38034",
+                Credential = credential
+
+                //PaymentMethodId = "PUE",Este campo no debe existir.
+                //ExchangeRate = 1, Este campo no debe existir.
+                //Discount = 0, Este campo no debe existir.
+                //PaymentForm = "01", Este campo no debe existir.
+                //PaymentConditions = null, Este campo no debe existir.
+            };
+
+
+            // emisor
+            service.AddIssuer("MEJJ940824C61", "JESUS MENDOZA JUAREZ", "621");
+
+
+            //receptor
+            service.AddRecipient("DGE131017IP1", "DYM GENERICOS", "38050", "601", "CP01");
+
+
+            //Payment
+            var payment = new Payment
+            {
+                PaymentDate = DateTime.Now.ToSatFormat(),
+                PaymentFormId = "28",
+                CurrencyId = InvoiceCurrency.MXN.ToValue(),
+                ExchangeRate = 1,
+                Amount = 90000,
+                OperationNumber = null,
+                OriginBankTin = "BSM970519DU8",
+                OriginBankAccountNumber = "1234567891012131",
+                DestinationBankTin = "BBA830831LJ2",
+                DestinationAccountNumber = "1234567890",
+            };
+
+
+            //Payment invoice
+            var paymentInvoice = new PaymentInvoice
+            {
+                InvoiceUuid = "5C7B0622-01B4-4EB8-96D0-E0DEBD89FF0F",
+                InvoiceSeries = "F",
+                InvoiceNumber = "1127",
+                InvoiceCurrencyId = InvoiceCurrency.MXN.ToValue(),
+                InvoiceExchangeRate = 1,
+                PartialityNumber = 1,
+                PreviousBalanceAmount = 98618.388800m,
+                PaymentAmount = 90000m,
+                RemainingBalance = 8618.3888m,
+                TaxObjectId = TaxationObject.YesSubjectToTax.ToValue(),
+            };
+
+            //Add payment and invoices (related documents) before adding taxes,
+            //because the taxes methods use the *LAST* payment or invoice added to the service. 
+            service.AddPayment(payment);
+            service.AddPaymentInvoice(paymentInvoice);
+
+            //Add taxes to the LAST invoice of the LAST payment. (withholding or/ and transferred taxes)
+            service.AddTransferredTax("002", "Exento");
+            service.AddTransferredTax("002", "Tasa", 0.000000m);
+            service.AddTransferredTax("002", "Tasa", 0.160000m);
+            service.AddTransferredTax("002", "Tasa", 0.080000m);
+            service.AddTransferredTax("002", "Tasa", 0.530000m);
+            service.AddWithholdingTax("002", "Tasa", 0.106666m);
+
+
+            service.SignInvoice();
+            var xml = service.SerializeToString();
+            await File.WriteAllTextAsync("payment-invoice-service2.xml", xml);
+
+            MessageBox.Show(@"Ok");
         }
     }
 }

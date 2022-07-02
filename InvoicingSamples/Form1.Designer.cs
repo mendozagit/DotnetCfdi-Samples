@@ -34,7 +34,7 @@
             this.CreditNoteServiceButton = new System.Windows.Forms.Button();
             this.PaymentServiceButton = new System.Windows.Forms.Button();
             this.IngresoServicebutton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.PaymentServiceButton2 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -109,16 +109,16 @@
             this.IngresoServicebutton.UseVisualStyleBackColor = true;
             this.IngresoServicebutton.Click += new System.EventHandler(this.IngresoServicebutton_Click);
             // 
-            // button1
+            // PaymentServiceButton2
             // 
-            this.button1.Location = new System.Drawing.Point(395, 257);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 54);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "PAYMENT INVOICE (WITH SERVICE) 2";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.PaymentServiceButton2.Location = new System.Drawing.Point(395, 257);
+            this.PaymentServiceButton2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.PaymentServiceButton2.Name = "PaymentServiceButton2";
+            this.PaymentServiceButton2.Size = new System.Drawing.Size(149, 54);
+            this.PaymentServiceButton2.TabIndex = 6;
+            this.PaymentServiceButton2.Text = "PAYMENT INVOICE (WITH SERVICE) 2";
+            this.PaymentServiceButton2.UseVisualStyleBackColor = true;
+            this.PaymentServiceButton2.Click += new System.EventHandler(this.PaymentServiceButton2_Click);
             // 
             // button2
             // 
@@ -191,7 +191,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.PaymentServiceButton2);
             this.Controls.Add(this.CreditNoteServiceButton);
             this.Controls.Add(this.PaymentServiceButton);
             this.Controls.Add(this.IngresoServicebutton);
@@ -216,7 +216,7 @@
         private Button CreditNoteServiceButton;
         private Button PaymentServiceButton;
         private Button IngresoServicebutton;
-        private Button button1;
+        private Button PaymentServiceButton2;
         private Button button2;
         private Button button3;
         private Label label1;
