@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlDownloaderSample", "XmlD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoicingSamples", "InvoicingSamples\InvoicingSamples.csproj", "{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Invoicing", "..\invoicing\src\Invoicing\Invoicing.csproj", "{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Credencials", "..\credentials\src\Credencials\Credencials.csproj", "{9BBEB034-2D9F-46BA-B243-B66C5458574C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,14 +27,6 @@ Global
 		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C979A21-61B6-4A8B-88DF-2C13BD8345DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC1A7446-2021-4426-A3BC-AF479EF3E6F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9BBEB034-2D9F-46BA-B243-B66C5458574C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BBEB034-2D9F-46BA-B243-B66C5458574C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BBEB034-2D9F-46BA-B243-B66C5458574C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BBEB034-2D9F-46BA-B243-B66C5458574C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,8 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\credentials\src\Credencials\Credencials.csproj" />
-    <ProjectReference Include="..\..\invoicing\src\Invoicing\Invoicing.csproj" />
+    <PackageReference Include="Mensoft.Dotnetcfdi.Invoicing" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
