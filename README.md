@@ -10,13 +10,14 @@
 ---
 
 
-Este repositorio contiene un proyecto de ejemplo por cada repositorio de [dotnetcfdi]( https://github.com/dotnetcfdi/), 
+This repository contains one sample project for each repository of  [dotnetcfdi]( https://github.com/dotnetcfdi/), 
 
- [dotnetcfdi]( https://github.com/dotnetcfdi/), es una organización, cuyo objetivo principal es facilitar las tareas relacionadas con la autoridad tributaria en México (SAT), en el ecosistema .NET, sin importar el tipo de su aplicación, todas las librerías funcionan tanto en web, desktop y consola.
+ [dotnetcfdi]( https://github.com/dotnetcfdi/), is an organization, whose main objective is to facilitate the tasks related to the tax authority in Mexico (SAT), in the .NET ecosystem, regardless of the type of your application, all libraries work in web, desktop and console.
  
-Existen librerías que facilitan desde el uso de los archivos CSD  Y FIEL (conocidos como sellos o certificados), hasta librerías que gestionan la facturación, complementos y descarga masiva XML.  
+There are libraries that facilitate from the use of CSD and FIEL files (known as stamps or certificates), to libraries that manage invoicing, add-ons and massive XML download.  
 
-No olvide leer la documentación especifica de cada repositorio dentro de  [dotnetcfdi]( https://github.com/dotnetcfdi/)
+Don't forget to read the specific documentation of each repository within [dotnetcfdi]( https://github.com/dotnetcfdi/)
+
 
 
 
