@@ -8,9 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Mensoft.Dotnetcfdi.Invoicing" Version="2.0.1" />
-  </ItemGroup>
+  
 
   <ItemGroup>
     <None Update="CadenaOriginal40\aerolineas.xslt">
