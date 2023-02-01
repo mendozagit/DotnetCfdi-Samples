@@ -303,7 +303,7 @@ namespace InvoicingSamples
             credential.ConfigureAlgorithmForInvoicing();
 
             //Establezca la ruta del archivo de transformaciones de cadena original.
-            CredentialSettings.OriginalStringPath = @"CadenaOriginal40\cadenaoriginal40.xslt";
+            CredentialSettings.OriginalStringPath = @"C:\dotnetcfdi\CadenaOriginal40\cadenaoriginal40.xslt";
 
             //CredentialSettings.Algorithm
             return credential;
@@ -846,6 +846,7 @@ namespace InvoicingSamples
 
             invoiceService.SignInvoice();
             var xml = invoiceService.SerializeToString();
+            var base64Xml = xml.EncodeToBase64();
             await File.WriteAllTextAsync("invoice-by-service.xml", xml);
 
             MessageBox.Show(@"Ok");
